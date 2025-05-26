@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/my-app
+
+hooks:
+  BeforeInstall:
+    - location: scripts/permissions.sh
+      timeout: 60
+      runas: ubuntu
+    - location: scripts/stop.sh
+      timeout: 180
+      runas: ubuntu
+
+  AfterInstall:
+    - location: scripts/start.sh
+      timeout: 300
+      runas: ubuntu
