@@ -9,8 +9,8 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login-password --region us-east-1  | docker login --username AWS --password-stdin 099199746132.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com)
-      - REPOSITORY_URI=099199746132.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME
+      - $(aws ecr get-login-password --region us-east-1  | docker login --username AWS --password-stdin 099199746132.dkr.ecr.us-east-1.amazonaws.com)
+      - REPOSITORY_URI=099199746132.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME
       - echo $REPOSITORY_URI
   build:
     commands:
