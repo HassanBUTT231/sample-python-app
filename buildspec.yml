@@ -2,28 +2,21 @@ version: 0.2
 
 env:
   variables:
-    ECR_REPO_NAME: "my-app-repo"
+    IMAGE_REPO_NAME: "my-app-repo"
     IMAGE_TAG: "latest"
-
 phases:
   pre_build:
     commands:
-      - echo Checking Docker CLI...
-      - which docker || echo "Docker not found"
-      - docker --version || echo "Docker version check failed"
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 099199746132.dkr.ecr.us-east-1.amazonaws.com)
-      - REPOSITORY_URI=099199746132.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME
-      - echo $REPOSITORY_URI
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 099199746132.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
-      - echo Building Docker image...
-      - docker build -t $ECR_REPO_NAME .
-      - docker tag $ECR_REPO_NAME:latest $REPOSITORY_URI:$IMAGE_TAG
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG 099199746132.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
   post_build:
     commands:
-      - echo Pushing Docker image to ECR...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-
-artifacts:
-  files: []
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 099199746132.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
