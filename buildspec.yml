@@ -2,8 +2,9 @@ version: 0.2
 
 env:
   variables:
-    IMAGE_REPO_NAME: "my-app-repo"
+    IMAGE_REPO_NAME: "demo/hassan"
     IMAGE_TAG: "latest"
+
 
 phases:
   pre_build:
